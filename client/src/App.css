@@ -1,42 +1,88 @@
-#root {
-  max-width: 1280px;
-  margin: 0 auto;
+/* Global */
+.vheight-100 {
+  min-height: 100vh;
+}
+
+/* Styles related to NavBar */
+.navbar-padding {
+  padding-left: 1rem;
+  padding-right: 1rem;
+}
+
+.below-nav {
+  padding-top: 5rem;
+}
+
+/* Icons */
+.icon-size {
+  font-size: 1.5rem;
+}
+
+/* Filters and projects */
+.list-group-item {
+  background-color: transparent;
+}
+
+.list-group-item.active {
+  background-color: #14A44D;
+  border-color: #14A44D;
+}
+
+.list-group-item-action:hover {
+  background-color: #14A44D;
+  color: white;
+}
+
+small.watch-date {
+  text-align: right;
+}
+
+.projects-title {
+  margin-top: 2rem;
+}
+
+.notbold {
+  font-weight: normal;
+}
+
+/* Class for important tasks */
+.favorite {
+  color: red;
+}
+
+/* Changing color when mouse is hover certain elements suggests that interaction is possible */
+
+.bi-star:hover {
+  fill: #7e5707;
+  color: #E4A11B;
+}
+
+.bi-star-fill:hover {
+  fill: #7e5707;
+  color: #E4A11B;
+}
+
+.keep-white-space {
+  white-space: pre-wrap;
+}
+
+/* Add task button */
+.fixed-right-bottom {
+  position: fixed;
+  right: 0;
+  bottom: 0;
+  z-index: 1030;
+  margin: 0 1.5rem 1.5rem 0;
+  border-radius: 50%;
+}
+
+/* Adding padding to form */
+.form-padding {
   padding: 2rem;
-  text-align: center;
 }
 
-.logo {
-  height: 6em;
-  padding: 1.5em;
-  will-change: filter;
-  transition: filter 300ms;
-}
-.logo:hover {
-  filter: drop-shadow(0 0 2em #646cffaa);
-}
-.logo.react:hover {
-  filter: drop-shadow(0 0 2em #61dafbaa);
-}
-
-@keyframes logo-spin {
-  from {
-    transform: rotate(0deg);
-  }
-  to {
-    transform: rotate(360deg);
-  }
-}
-
-@media (prefers-reduced-motion: no-preference) {
-  a:nth-of-type(2) .logo {
-    animation: logo-spin infinite 20s linear;
-  }
-}
-
-.card {
-  padding: 2em;
-}
-
-.read-the-docs {
-  color: #888;
+.custom-btn {
+  background: #14A44D;
+  color: white;
+  border: 2px solid #14A44D;
 }

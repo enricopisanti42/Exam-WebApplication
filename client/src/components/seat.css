@@ -1,0 +1,91 @@
+h1 {
+  text-align: center;
+}
+
+.container {
+  width: auto;
+  margin: auto;
+}
+
+.grid td {
+  width: 65px;
+  height: 35px;
+  border: 2px solid rgb(56, 56, 57);
+  text-align: center;
+  float: left;
+  margin: 5px;
+}
+
+.grid td:hover {
+  opacity: 0.7;
+  cursor: pointer;
+  
+}
+
+.reserved {
+  background: orange;
+  color: #ff0000;
+  display: inline-block;
+}
+
+.selected {
+  background: red;
+  color: #09e832;
+  display: inline-block;
+}
+
+.reserved::after {
+  content: "        R";
+}
+
+.selected::after {
+  content: "        S";
+}
+
+.available::after {
+  content: "        A";
+}
+
+.available {
+  color: #333;
+}
+
+li {
+  list-style: none;
+}
+
+.btnmargin {
+  margin-top: 15px;
+  
+}
+
+.centered-container {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  height: 100vh;
+}
+
+.button-container {
+  display: flex;
+  gap: 100px;
+}
+
+.grid td.blink {
+  background-color: blue;
+  border-color: black;
+  color: black;
+
+}
+
+.error-container {
+  position: relative;
+  margin-top: 20px;
+}
+
+.error-message {
+  position: absolute;
+  top: 0;
+  left: 0;
+  color: red;
+}

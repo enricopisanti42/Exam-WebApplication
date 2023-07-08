@@ -1,0 +1,19 @@
+GET http://localhost:3001/api/reservations/80 HTTP/1.1
+
+####
+GET http://localhost:3001/api/airplanes/regional HTTP/1.1
+
+####
+
+DELETE http://localhost:3001/api/reservations/46 HTTP/1.1
+
+####
+POST http://localhost:3001/api/reservations HTTP/1.1
+content-type: application/json
+
+{
+  
+  "idplane":"2",
+  "seats":["13c","14d"]
+}
+
