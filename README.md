@@ -7,9 +7,9 @@
 
 - Route `/`: This is the default route. It renders the DefaultLayout component, which includes the navigation and serves as the main layout for the application. From here, we can navigate to other routes and in particular the text "Please select a plane" is displayed.
 
-- Route `/planes/:filterLabel` : This route is used for filtering airplanes based on a specific label. It renders the MainLayout component, which displays a table of airplanes. The filterLabel parameter in the URL is used to determine the filter applied to the airplanes. The available filters are "filter-local", "filter-regional", and "filter-international".
+- Route `/planes/:filterLabel` : This route is used for filtering airplanes based on a specific label. It renders the MainLayout component, which displays a table of airplanes. The filterLabel parameter in the URL is used to determine the filter applied to the airplanes. The available filters are "local", "regional", and "international". In this route the user (if logged in) can make a reservation and have access to "My Reservations" in order to cancel one of them to be then redirect to the grid of the plane  corresponding to the type of airplane present in the reservation that has just been cancelled.
 
-- Route  `/reservations/`:  This route is used for filtering reservations based on a specific user. It renders the ReservationLayout component, which displays a table of reservations for the logged users. We can "access" to this route only if the user is logged in otherwise we are redirecting to the login page.
+- Route  `/reservations/`:  This route is used for filtering reservations based on a specific user. It renders the ReservationLayout component, which displays a table of reservations for the logged users. We can "access" to this route only if the user is logged in otherwise we are redirected to the login page.
 
 - Route `/login`: This route has the purpose to show the login form.
 
@@ -27,7 +27,7 @@
 
 ``` JSON
 {
-    "username": "enrico@polito.it",
+    "email": "enrico@polito.it",
     "password": "enrico123"
 }
 ```
@@ -38,8 +38,8 @@
 ``` JSON
 {
   "id": 1,
-  "username": "enrico@polito.it",
-  "name": "Enrico",
+  "email": "enrico@polito.it",
+  "username": "Enrico",
 }
 ```
 
@@ -57,8 +57,8 @@
 ``` JSON
 {
   "id": 1,
-  "username": "enrico@polito.it",
-  "name": "Enrico",
+  "email": "enrico@polito.it",
+  "username": "Enrico",
  
 }
 ```
@@ -75,25 +75,6 @@
 
 * Error responses: `500 Internal Server Error` (generic error)
 
-
-#### GET `api/users`
-
-* Description: get the list of the name of the user in the db
-* Request body: _None_
-
-* Response: `200 OK` (success)
-* Response body: list of the user
-
-``` JSON
-[
-  "Enrico",
-  "Diomede",
-  "Giovanna",
-  "Carmen"
-]
-```
-
-* Error responses: `500 Internal Server Error` (generic error), `401 Unauthorized User` (user is not logged in or is not an admin)
 
 
 ### Reservation APIs
@@ -112,21 +93,21 @@
   "idreservation": 1,
   "iduser": 2,
   "plane" : "local",
-  "seat" : ["1A","1B","1C"]
+  "seat" : ["1a","1b","1c"]
   }
 
   {
   "idreservation": 4,
   "iduser": 2,
   "plane" : "regional",
-  "seat" : ["1A","1B","1C"]
+  "seat" : ["1a","1b","1c"]
   }
 
   {
   "idreservation": 6,
   "iduser": 2,
   "plane" : "international",
-  "seat" : ["1A","1B","1C"]
+  "seat" : ["1a","1b","1c"]
   }
 
 ]
@@ -137,18 +118,28 @@
 * Description: A user can delete a reservation which is identified by a specific id
 * Request body: _None_
 * Response: `201 OK` (success)
-* Response body: _None_
-* Error responses: `500 Internal Server Error` (generic error), `422 Unprocessable Entity` (validation error), `404 Not Found` (wrong id), `401 Unauthorized User` (user is not logged)
+* Response body: 
+
+  ``` JSON
+
+  {
+    "message": "Seat canceled correctly"
+  }
+
+
+  ```
+
+
+* Error responses: `500 Internal Server Error` (generic error), `422 Unprocessable Entity` (validation error), `404 Not Found` (reservation not found or wrongid), `401 Unauthorized User` (user is not logged in)
 
 
 #### POST `api/reservations/`
-* Description: A user can insert a new reservation which is identified by a specific id
+* Description: A logged in user can insert a new reservation which is identified by a specific id
 * Request body:
 ``` JSON
   {
-    "iduser": 2,
     "plane" : 2,
-    "seat" : ["1A"]
+    "seat" : ["1a"]
   }
 ```
 * Response: `201 Created` (success)
@@ -156,12 +147,12 @@
 ``` JSON
   {
     "idreservation": 5,
-    "iduser": 2,
+    "iduser": 1,
     "plane" : 2,
-    "seat" : ["1A"]
+    "seat" : ["1a"]
   }
 ```
-* Error responses: `500 Internal Server Error` (generic error), `422 Unprocessable Entity` (validation error), `401 Unauthorized User` (user is not logged in/ normal user trying to create a new reservation), `406 Unavailable seats` (user is trying to reserved seats that are just booked ) 
+* Error responses: `500 Internal Server Error` (generic error), `422 Unprocessable Entity` (validation error), `401 Unauthorized User` (user is not logged in), `406 Unavailable seats` (user is trying to reserved seats of a specific airplane but he has just done a reservation for that plane) 
 
 
 ### Airplane APIs
@@ -180,7 +171,7 @@
   "typeplane" : "regional",
   "seatinrow": 5,
   "rowstot" : 20,
-  "seat": ["1A","1B","1C"]
+  "reservedSeats": ["1a","1b","1c"]
   },
  
 ```

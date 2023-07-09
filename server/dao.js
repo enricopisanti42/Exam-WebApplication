@@ -49,21 +49,6 @@ exports.getUser = (email, password) => {
   };
 
 
-exports.listAirplaneTypes = () => {
-    return new Promise((resolve, reject) => {
-      const sql = 'SELECT typeplane FROM Planes';
-      db.all(sql, [], (err, rows) => {
-        if (err) {
-          reject(err);
-        } else {
-          const typeplane = rows.map(row => row.typeplane);
-          resolve(typeplane);
-        }
-      });
-    });
-  };
-  
-
 exports.getUserReservations = (userId) => {
   return new Promise((resolve, reject) => {
       const sql = `
@@ -93,7 +78,7 @@ exports.getUserReservations = (userId) => {
             }
           });
         
-          resolve(Object.values(reservations));
+          resolve(Object.values(reservations)); //un array contenente tutti gli oggetti delle prenotazioni
 
         }
       });
@@ -213,7 +198,6 @@ exports.getPlaneSeats = (typeplane) => {
       db.serialize(() => {
         db.get("SELECT seatsinrow, rowstot, idplane FROM Planes WHERE typeplane = ?",[typeplane], (err, row) => {
             if (err) {
-              console.log(err);
               reject(err);
               return;
             }
@@ -235,7 +219,7 @@ exports.getPlaneSeats = (typeplane) => {
   
                 for (let row = 1; row <= rowstot; row++) {
                   for (let seat = 1; seat <= seatsinrow; seat++) {
-                    planeSeats.push(`${row}${String.fromCharCode(96 + seat)}`);
+                    planeSeats.push(`${row}${String.fromCharCode(96 + seat)}`); //97 è l'ASCII di 'a';  Nella tabella ASCII, i caratteri alfabetici minuscoli sono rappresentati dai numeri da 97 a 122.
                   }
                 }
   

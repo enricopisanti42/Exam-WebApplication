@@ -7,7 +7,6 @@ import { RouteFilters } from './Filters';
 import { LoginForm } from './Auth';
 import { useState, useEffect } from 'react';
 import API from '../API';
-//className="vh-100"
 
 function DefaultLayout(props) {
 

@@ -62,7 +62,7 @@ app.use(passport.authenticate('session'));
 
 /** Defining authentication verification middleware **/
 const isLoggedIn = (req, res, next) => {
-  if(req.isAuthenticated()) {
+  if(req.isAuthenticated()) { // To check if a request comes from an authenticated user, we can check Passport's req.isAuthenticated() at the beginning of every callback body in each route to protect
     return next();
   }
   return res.status(401).json({error: 'Not authorized'});
@@ -125,7 +125,6 @@ app.get('/api/reservations/:iduser',isLoggedIn,[ check('iduser').isInt({min: 1})
   }
   try{
     const checkuser = await dao.getUserById(req.params.iduser);
-    console.log(checkuser);
       if(checkuser.hasOwnProperty("error"))
           res.status(404).json({error: "User not found"});
       else{
@@ -133,7 +132,7 @@ app.get('/api/reservations/:iduser',isLoggedIn,[ check('iduser').isInt({min: 1})
         return res.status(200).json(prenotazioni);
       }
   } catch (err) {
-    res.status(500).end();
+    res.status(500).json(err);
   }
 });
 
@@ -142,8 +141,8 @@ const validatePlanetype = [
   check('airplanetype')
     .not()
     .isNumeric()
-    .withMessage('Planetype must not be a number')
-    .trim()
+    .withMessage('Planetype must not be a number') //Se il valore è numerico, questa validazione fallisce e viene restituito un messaggio di errore "Planetype must not be a number".
+    .trim()  //Rimuove gli spazi bianchi all'inizio e alla fine del valore del campo "airplanetype"
     .notEmpty()
     .withMessage('Planetype cannot be empty'),
 ];
@@ -163,7 +162,7 @@ app.get("/api/airplanes/:airplanetype", validatePlanetype, async (req, res) => {
       return res.status(200).json(result);
     }
   } catch (err) {
-    res.status(500).end();
+    res.status(500).json(err);
   }
 });
 
@@ -180,13 +179,13 @@ app.delete("/api/reservations/:idreservation", [check("idreservation").isInt({ m
     const reservationId = req.params.idreservation;
     const result = await dao.deleteReservation(reservationId);
     
-    if (result.rowsAffectedReservations > 0 || result.rowsAffectedReservedSeats > 0) {
+    if (result.rowsAffectedReservations > 0 || result.rowsAffectedReservedSeats > 0) { //se ho avuto un "effetto" > 0
       res.status(201).json({message : "Seat canceled correctly"}); // Successful deletion, no content to return
     } else {
       res.status(404).json({ error: "Reservation not found." });
     }
   } catch (error) {
-    res.status(500).json({ error: "Failed to delete reservation." });
+    res.status(500).json(error);
   }
 });
 
@@ -222,7 +221,7 @@ app.post("/api/reservations", isLoggedIn,
 
   const checking = await dao.checkUserReservation(req.user.id, req.body.idplane);
     if(checking>0){
-      return res.status(406).json({ error: `user ${req.body.iduser} has just done a reservation for that specific plane identified by idplane: ${req.body.idplane}`})
+      return res.status(406).json({ error: "You have just done a reservation for that specific plane"})
     }
   
   const reservation = {
@@ -246,7 +245,6 @@ app.post("/api/reservations", isLoggedIn,
     return res.status(201).json(datareservation);
     
   }  catch (err) {
-    console.log(err);
     res.status(500).end();
   }
 });

@@ -93,10 +93,8 @@ const handleSubmited = async (tipologiaaereo) => {
       try {
       // Controlla se l'utente ha già prenotato posti per lo stesso tipo di aereo
       const userReservations = await API.getReservations(props.user.id); // Ottieni le prenotazioni dell'utente
-      const hasReservation = userReservations.some((reservation) => reservation.typeplane === airplaneinfo.typeplane);
-      if (hasReservation) {
-        throw new Error("You have already made a reservation for this airplane.");
-      }
+      const hasReservation = userReservations.some((reservation) => reservation.typeplane === airplaneinfo.typeplane); // it is like the checking in index.js
+  
 
       const x = await API.createReservation(newReservation);
         setprenotazione(x);
@@ -110,16 +108,13 @@ const handleSubmited = async (tipologiaaereo) => {
         }));
       } catch (error) {
 
+        setError(error.error);
+
         if(error.seats){
           setblinkedseat([...error.seats]);
           setErrorSeatMessage("This seat is just reserved"); // Imposta il messaggio di errore specifico
         }
-
-        setError(error.error);
-        if  ( error.message && error.message  === "You have already made a reservation for this airplane.") {
-          setError("Oops! You have already made a reservation for this airplane.");
-        }
-
+        
         setShowErrorToast(true);
       }
     };
@@ -143,9 +138,6 @@ const handleSubmited = async (tipologiaaereo) => {
       // Controlla se l'utente ha già prenotato posti per lo stesso tipo di aereo
       const userReservations = await API.getReservations(props.user.id); // Ottieni le prenotazioni dell'utente
       const hasReservation = userReservations.some((reservation) => reservation.typeplane === airplaneinfo.typeplane);
-      if (hasReservation) {
-        throw new Error("You have already made a reservation for this airplane.");
-        }
     
       const x = await API.createReservation(newReservation);
       setprenotazione(x);
@@ -159,14 +151,14 @@ const handleSubmited = async (tipologiaaereo) => {
         }));
       } catch (error) {
 
+        setError(error.error);
+
         if(error.seats){
           setblinkedseat([...error.seats]);
           setErrorSeatMessage("This seat is just reserved"); // Imposta il messaggio di errore specifico
         }
-        setError(error.message);
-        if (error.message === "You have already made a reservation for this airplane.") {
-          setError("Oops! You have already made a reservation for this airplane.");
-        }
+        
+        
         setShowErrorToast(true);
       }
     };

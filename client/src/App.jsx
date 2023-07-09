@@ -52,7 +52,6 @@ function App() {
   const handleLogin = async (credentials) => {
     try {
       const user = await API.logIn(credentials);
-      console.log(user);
       setUser(user);
       setLoggedIn(true);
     } catch (err) {
@@ -77,7 +76,6 @@ function App() {
    * Each filter is identified by a unique name and is composed by the following fields:
    * - A label to be shown in the GUI
    * - An URL of the corresponding route
-   * - A filter function applied before passing the films to the FilmTable component
    */
   const filters = {
     'local':  { label: 'Local', url: '/planes/local'},
